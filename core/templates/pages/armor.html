@@ -2,5 +2,17 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block layout %}
-    <h1 class="text-3xl font-bold text-center">Welcome to the Armor Page!</h1>
+    <h1 class="text-3xl font-bold text-center my-6">Armor List</h1>
+
+    {% if armors %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+            {% for armor in armors %}
+                <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
+                    <h2 class="text-lg font-bold">{{ armor.name }}</h2>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-red-500">No armor found.</p>
+    {% endif %}
 {% endblock layout %}

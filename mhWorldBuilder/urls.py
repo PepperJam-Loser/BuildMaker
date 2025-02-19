@@ -20,5 +20,9 @@ from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('armor/', views.armor, name='armor'),
+    path("weapons/", views.weapon_list, name="weapon_list"),
+    path("armor/", views.armor_list, name="armor_list"),
+    path("", views.buildmaker, name='buildmaker'),
+    path("search/", views.weapon_search),
+    path('weapon_search/', views.weapon_search, name='weapon_search'),
 ]
