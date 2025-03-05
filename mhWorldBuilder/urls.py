@@ -25,4 +25,9 @@ urlpatterns = [
     path("", views.buildmaker, name='buildmaker'),
     path("search/", views.weapon_search),
     path('weapon_search/', views.weapon_search, name='weapon_search'),
+    path('armor_search/', views.armor_search, name='weapon_search'),
+    path('charm_search/', views.charm_search, name='charm_search'),
+    path('weapon/<int:weapon_id>/', views.weapon, name='weapon'),
+    path('armor/<int:armor_id>/', views.armor, name='armor'),
+    path("charm/<int:charm_id>/", views.charm, name='charm'),
 ]
