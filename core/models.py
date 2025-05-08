@@ -14,7 +14,8 @@ class Armor(models.Model):
     #attributes - not needed
     name = models.CharField(max_length = 50, default = '')
     slots = models.JSONField(default=dict)
-    skills  = models.JSONField(default=dict)
+    skills = models.JSONField(default=dict)
+    setbonus  = models.JSONField(default=dict)
     #armorSet set bonus are going to have to be looked up in armor/sets matching bonus id
     #pieces is the min requirement for set bonus
     def __str__(self):
@@ -40,7 +41,16 @@ class Weapon(models.Model):
 
 class Charm(models.Model):
     id = models.IntegerField(primary_key = True)
+    slot = models.IntegerField(default = 0)
     name = models.CharField(max_length = 50, default = '')
     ranks = models.JSONField(default=dict)
     def __str__(self):
-        return f"id:{self.id}"
+        return f"id: {self.id}"
+    
+class Decoration(models.Model):
+    id = models.IntegerField(primary_key = True)
+    name = models.CharField(max_length = 50, default = '')
+    skills = models.JSONField(default=dict)
+    def __str__(self):
+        return f"id: {self.id}"
+    

@@ -1,6 +1,6 @@
 from django.shortcuts import render,  get_object_or_404
 from django.http import JsonResponse
-from .models import Armor, Weapon, Charm
+from .models import Armor, Weapon, Charm, Decoration
 import requests
 import json
 # Create your views here.
@@ -10,6 +10,10 @@ def castToInt(value, default=0):
         return int(value)
     except (ValueError, TypeError):
         return default
+    
+def search(request):
+
+    return render(request, "pages/searchengine.html")
 
 def buildmaker(request):
     weapons = []
@@ -63,38 +67,96 @@ def fetchAPI(endpoint, **params):
     
 def weapon_search(request):
     weapon_type = request.GET.get("type", "")
-    
-    if not weapon_type:
-        return JsonResponse({"error": "No weapon type"}, status=400)
+    name = request.GET.get("name", "")
+    element_type = request.GET.get("element_type", "")
+    min_slots = request.GET.get("slots", 0)
 
-    query = json.dumps({"type": weapon_type})
-    weapons = fetchAPI(f"weapons?q={query}")
+    query = {}
+
+    if weapon_type:
+        query["type"] = weapon_type
+
+    if name:
+        query["name"] = {"$like": f"%{name}%"}
+
+    if element_type:
+        query["elements.type"] = element_type
+    
+    if min_slots:
+        query["slots"] = {"$size": int(min_slots)}
+
+    if not query:
+        return JsonResponse({"error": "No valid search parameters provided"}, status=400)
+
+    query_string = json.dumps(query)
+
+    weapons = fetchAPI(f"weapons?q={query_string}")
 
     if not weapons:
         return JsonResponse({"error": "No weapons found"}, status=404)
 
-    return JsonResponse({"weapons": weapons})
+    return JsonResponse({"weapons": weapons}, status=200)
 
 def armor_search(request):
-    armor_type = request.GET.get("type", "")
+    armor_types = request.GET.get("type", "")
+    name = request.GET.get("name", "")
+    min_slots = request.GET.get("slots", 0)
     
-    if not armor_type:
-        return JsonResponse({"error": "No armor type found"}, status=400)
+    query = {}
+    
+    if armor_types:
+        query["type"] = armor_types
 
-    query = json.dumps({"type": armor_type})
-    armors = fetchAPI(f"armor?q={query}")
+    if name:
+        query["name"] = {"$like": f"%{name}%"}
+    
+    if min_slots:
+        query["slots"] = {"$size": int(min_slots)}
+        
+    query_string = json.dumps(query)
+
+    armors = fetchAPI(f"armor?q={query_string}")
 
     if not armors:
         return JsonResponse({"error": "No armor found"}, status=404)
 
-    return JsonResponse({"armors": armors})
+    return JsonResponse({"armors": armors}, status=200)
 
 def charm_search(request):
-    charms = fetchAPI("charms")
+    name = request.GET.get("name", "")
     
-    return JsonResponse({"charms": charms})
+    query = {}
+    
+    if name:
+        query["name"] = {"$like": f"%{name}%"}
+        
+    query_string = json.dumps(query)
+    
+    charms = fetchAPI(f"charms?q={query_string}")
 
-def weapon(weapon_id):
+    if not charms:
+        return JsonResponse({"error": "No charms found"}, status=404)
+
+    return JsonResponse({"charms": charms}, status=200)
+
+def decoration_search(request):
+    name = request.GET.get("skills.skillName", " ")
+    
+    query = {}
+    
+    if name:
+        query["skills.skillName"] = {"$like": f"%{name}%"}
+        
+    query_string = json.dumps(query)
+    
+    decorations = fetchAPI(f"decorations?q={query_string}")
+
+    if not decorations:
+        return JsonResponse({"error": "No decorations found"}, status=404)
+
+    return JsonResponse({"decorations": decorations}, status=200)
+
+def weapon(request, weapon_id):
     try:
         weapon = Weapon.objects.get(id=weapon_id)
     except Weapon.DoesNotExist:
@@ -125,10 +187,13 @@ def weapon(weapon_id):
         "attack": weapon.attack.get("display", 0),
         "attributes": weapon.attributes,
         "elderseal": weapon.elderseal,
-        "damageType": weapon.damageType
+        "damageType": weapon.damageType,
+        "elements" :  weapon.elements,
+        "durability" : weapon.durability,
+        "slots" : weapon.slots,
     })
 
-def armor(armor_id):
+def armor(request, armor_id):
     try:
         armor = Armor.objects.get(id=armor_id)
     except Armor.DoesNotExist:
@@ -145,8 +210,9 @@ def armor(armor_id):
             defense = armor_data.get("defense", {}),
             resistances = armor_data.get("resistances", {}),
             name = str(armor_data["name"]),
-            slots = armor_data.get("slots", {}),
-            skills = armor_data.get("skills", {}),
+            slots = armor_data.get("slots", []),
+            skills = armor_data.get("skills", []),
+            setbonus = armor_data.get("armorSet",{}),
         )
 
     return JsonResponse({
@@ -155,14 +221,16 @@ def armor(armor_id):
         "type": armor.type,
         "rarity": armor.rarity,
         "defense": armor.defense.get("base", 0),
-        "resistances": armor.resistances
+        "resistances": armor.resistances,
+        "slots": armor.slots,
+        "skills": armor.skills,
     })
     
-def charm(charm_id):
+def charm(request, charm_id):
     try:
         charm = Charm.objects.get(id=charm_id)
     except Charm.DoesNotExist:
-        charm_data = fetchAPI(f"charm/{charm_id}")
+        charm_data = fetchAPI(f"charms/{charm_id}")
         
         if not charm_data or "id" not in charm_data:  
             return JsonResponse({"error": f"Charm ID {charm_id} not found in API"}, status=404)
@@ -179,10 +247,75 @@ def charm(charm_id):
         "ranks": charm.ranks,
     })
     
+def decoration(request, decoration_id):
+    try:
+        decoration = Decoration.objects.get(id=decoration_id)
+    except Decoration.DoesNotExist:
+        decoration_data = fetchAPI(f"decorations/{decoration_id}")
+        
+        if not decoration_data or "id" not in decoration_data:  
+            return JsonResponse({"error": f"Decoration ID {decoration_id} not found in API"}, status=404)
     
+        decoration = Decoration.objects.create(
+            id = castToInt(decoration_data["id"]),
+            name = str(decoration_data["name"]),
+            skills = decoration_data.get("skills", []),
+        )
+    return JsonResponse({
+        "id": decoration.id,
+        "name": decoration.name,
+        "skills": decoration.skills,
+    })
     
+def motion(request):
+    weaponType = request.GET.get("weaponType", "")
     
+    query = {}
     
+    if weaponType:
+        query["weaponType"] = {"$like": f"%{weaponType}%"}
+        
+    query_string = json.dumps(query)
+    
+    motion = fetchAPI(f"motion-values?q={query_string}")
+
+    if not motion:
+        return JsonResponse({"error": "No motion-values found"}, status=404)
+
+    return JsonResponse({"motion": motion}, status=200)
+
+def skills(request):
+    skillName = request.GET.get("skillName", "")
+    rank = request.GET.get("rank", "")
+    
+    query = {}
+    
+    if skillName:
+        query["name"] = skillName
+    if skillName:
+        query["ranks.level"] = rank
+        
+    query_string = json.dumps(query)
+    
+    skill_data = fetchAPI(f"skills?q={query_string}")
+    
+    skill = skill_data[0]
+    ranks = skill.get("ranks", [])
+    
+    if not skill_data:
+        return JsonResponse({"error": "Skill not found"}, status=404)
+    
+    rank_index = int(rank) - 1
+    if rank_index >= len(ranks) or rank_index < 0:
+        rank_index = len(ranks) - 1
+
+    desired_rank = ranks[rank_index]
+    modifiers = desired_rank.get("modifiers", {})
+
+    return JsonResponse({
+        "modifiers": modifiers
+    })
+
 def weapon_list(request):
     weapons = fetchAPI("weapons")
     

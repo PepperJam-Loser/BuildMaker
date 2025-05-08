@@ -5,14 +5,50 @@
 
 <div class="flex w-full">
     <div class="flex flex-col w-[70%] gap-1">
-        <button onclick="openWeaponSearch()" id="weaponButton" class="btn btn-primary">Weapon</button>
-        <button onclick="openArmorSearch('head')" id="headButton" class="btn btn-primary">Head</button>
-        <button onclick="openArmorSearch('chest')" id="chestButton" class="btn btn-primary">Chest</button>
-        <button onclick="openArmorSearch('gloves')" id="armsButton" class="btn btn-primary">Gloves</button>
-        <button onclick="openArmorSearch('waist')" id="waistButton" class="btn btn-primary">Waist</button>
-        <button onclick="openArmorSearch('legs')" id="legsButton" class="btn btn-primary">Legs</button>
-        <button onclick="openCharmSearch()" id="charmButton" class="btn btn-primary">Charm</button>
-        
+        <button onclick="openWeaponSearch()" id="weaponButton" class="btn btn-primary">Weapon</span></button>
+        <div id="weaponSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="weaponSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="weaponSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="weaponSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openArmorSearch('head')" id="headButton" class="btn btn-primary">Head</span></button>
+        <div id="headSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="headSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="headSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="headSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openArmorSearch('chest')" id="chestButton" class="btn btn-primary">Chest</span></button>
+        <div id="chestSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="chestSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="chestSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="chestSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openArmorSearch('gloves')" id="glovesButton" class="btn btn-primary">Gloves</span></button>
+        <div id="glovesSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="glovesSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="glovesSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="glovesSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openArmorSearch('waist')" id="waistButton" class="btn btn-primary">Waist</span></button>
+        <div id="waistSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="waistSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="waistSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="waistSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openArmorSearch('legs')" id="legsButton" class="btn btn-primary">Legs</span></button>
+        <div id="legsSlots" class="flex gap-2 mt-1 hidden">
+            <button onclick="openSlotSearch(event)" id="legsSlot1" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 1</button>
+            <button onclick="openSlotSearch(event)" id="legsSlot2" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 2</button>
+            <button onclick="openSlotSearch(event)" id="legsSlot3" class="btn btn-sm btn-secondary slot-btn" data-decoration-id="">Slot 3</button>
+        </div>
+        <div class="divider"></div>
+        <button onclick="openCharmSearch()" id="charmButton" class="btn btn-primary">Charm</span></button>
+
         <input type="hidden" id="selectedWeaponId">
         <input type="hidden" id="selectedHeadArmorId">
         <input type="hidden" id="selectedChestArmorId">
@@ -28,69 +64,163 @@
         <div class="card w-[100%] shadow-x1">
             <h2 class="card-title">Stats</h2>
             <div id="statsContainer" class="flex flex-col gap-2">
-                <div id="weaponStats"></div>
+                <div id="weaponStats">
+                    <p><strong>Attack:</strong> <span id="attack">0</span></p>
+                    <p><strong>Affinity:</strong> <span id="affinity">0</span></p>
+                    <p><strong>Element:</strong> <span id="element">0</span></p>
+                    <p><strong>Elderseal:</strong> <span id="elderseal">0</span></p>
+                    <p><strong>Durability:</strong> <span id="durability">0</span></p>
+                </div>
                 <div id="generalStats">
-                    <p><strong>Health:</strong> 100</p>
-                    <p><strong>Stamina:</strong> 100</p>
+                    <p><strong>Health:</strong> <span id="health">100</span></p>
+                    <p><strong>Stamina:</strong> <span id="stamina">100</span></p>
                     <p><strong>Defense:</strong> <span id="totalDefense">0</span></p>
                     <p><strong>Fire Resistance:</strong> <span id="fireResistance">0</span></p>
                     <p><strong>Water Resistance:</strong> <span id="waterResistance">0</span></p>
                     <p><strong>Ice Resistance:</strong> <span id="iceResistance">0</span></p>
                     <p><strong>Thunder Resistance:</strong> <span id="thunderResistance">0</span></p>
                     <p><strong>Dragon Resistance:</strong> <span id="dragonResistance">0</span></p>
+                    <p><strong>Skills:</strong> <div id="totalSkills"></div></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div id="weaponModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
-        <h2 class="text-xl font-col mb-4">Weapon Search</h2>
-        <div class="flex flex-wrap justify-center gap-4">
-            {% for weapon, abrv in weapon_types.items %}
-            <button onclick="fetchWeapons('{{ weapon }}')" class="btn btn-primary capitalize">
-                {{ abrv }}
-            </button>
-            {% endfor %}
+<div class="divider"></div>
+
+<div class="flex w-full">
+    <div id="movesetCollapseToggle" class="collapse collapse-close bg-base-100 border-base-300 border">
+        <div class="collapse-title font-semibold">Movesets For Selected Weapon</div>
+        <div class="collapse-content text-sm">
+            <div id="movesetGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            
+            </div>
         </div>
+    </div>
+</div>
+
+<input type="hidden" id="weaponType" value="">
+<input type="hidden" id="armorType" value="">
+
+<div id="weaponModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-base-100 p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
+        <h2 class="text-xl font-col mb-4">Weapon Search</h2>
+        
+        <div class="flex flex-row w-[100%] gap-2">
+            
+                <input type="text" id="weaponSearchBox" class="input input-bordered w-full" placeholder="Search by Name" oninput="fetchWeapons()">
+
+                <select id="elementFilter" class="select select-bordered" onchange="fetchWeapons()">
+                    <option value="">Element</option>
+                    <option value="fire">Fire</option>
+                    <option value="water">Water</option>
+                    <option value="ice">Ice</option>
+                    <option value="thunder">Thunder</option>
+                    <option value="dragon">Dragon</option>
+                    <option value="blast">Blast</option>
+                    <option value="poison">Poison</option>
+                    <option value="sleep">Sleep</option>
+                    <option value="paralysis">Paralysis</option>
+                </select>
+
+                <select id="weaponSlotFilter" class="select select-bordered" onchange="fetchWeapons()">
+                    <option value="">Slots</option>
+                    <option value="1">1 Slot</option>
+                    <option value="2">2 Slots</option>
+                </select>
+        </div>
+
         <div class="divider"></div>
 
-        <div id="loadingSpinner" class="flex justify-center hidden">
-            <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+        <div class="join flex justify-center">
+            <div class="flex flex-wrap justify-center gap-2">
+                {% for weapon, abrv in weapon_types.items %}
+                    <button 
+                        onclick="toggleWeaponType('{{ weapon }}')" 
+                        id="weapon-btn-{{ weapon }}" 
+                        class="btn btn-secondary capitalize"
+                    >
+                        {{ abrv }}
+                    </button>
+                {% endfor %}
+            </div>
         </div>
 
+        <div class="divider"></div>
+        
         <div id="weaponList" class="flex flex-col justify-center gap-4"></div>
     </div>
 </div>
 
 <div id="armorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
+    <div class="bg-base-100 p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
         <h2 class="text-xl font-bold mb-4" id="armorModalTitle">Armor Search</h2>
-        <div class="divider"></div>
+        
+        <div class="flex flex-row w-[100%] gap-2">
+            <input type="text" id="armorSearchBox" class="input input-bordered w-full gap-4" placeholder="Search by Name" oninput="fetchArmor()">
 
-        <div id="armorLoadingSpinner" class="flex justify-center hidden">
-            <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+            <select id="armorSlotFilter" class="select select-bordered" onchange="fetchArmor()">
+                <option value="">Slots</option>
+                <option value="1">1 Slot</option>
+                <option value="2">2 Slots</option>
+                <option value="3">3 Slots</option>
+            </select>
         </div>
+
+        <div class="divider"></div>
 
         <div id="armorList" class="flex flex-col justify-center gap-4"></div>
     </div>
 </div>
 
 <div id="charmModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
-        <h2 class="text-xl font-bold mb-4" id="armorModalTitle">Charm Search</h2>
-        <div class="divider"></div>
+    <div class="bg-base-100 p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4" id="charmModalTitle">Charm Search</h2>
 
-        <div id="charmLoadingSpinner" class="flex justify-center hidden">
-            <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
-        </div>
+        <input type="text" id="charmSearchBox" class="input input-bordered w-full gap-4" placeholder="Search by Name" oninput="fetchCharm()">
+
+        <div class="divider"></div>
 
         <div id="charmList" class="flex flex-col justify-center gap-4"></div>
     </div>
 </div>
 
+<div id="slotModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-base-100 p-4 rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4" id="slotModalTitle">Decoration Search</h2>
+
+        <input type="text" id="decorationSearchBox" class="input input-bordered w-full gap-4" placeholder="Search by Name" oninput="fetchDecoration()">
+        
+        <div class="divider"></div>
+
+        <div id="decorationList" class="flex flex-col justify-center gap-4"></div>
+    </div>
+</div>
+
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const idsToClear = [
+            'selectedWeaponId',
+            'selectedHeadArmorId',
+            'selectedChestArmorId',
+            'selectedGlovesArmorId',
+            'selectedWaistArmorId',
+            'selectedLegsArmorId',
+            'selectedCharmId'
+        ];
+
+        document.getElementById("movesetCollapseToggle").classList.remove("collapse-open");
+        document.getElementById("movesetCollapseToggle").classList.add("collapse-close");
+        
+        idsToClear.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = "";
+            }
+        });
+    });
+
     function openWeaponSearch() {
         const modal = document.getElementById("weaponModal");
         modal.classList.remove("hidden");
@@ -106,10 +236,91 @@
         document.getElementById("weaponModal").classList.add("hidden");
     }
 
+    function toggleWeaponType(weaponType) {
+        const selectedButton = document.getElementById(`weapon-btn-${weaponType}`);
+        
+        const isActive = selectedButton.classList.contains('btn-active');
+        
+        document.querySelectorAll('.btn').forEach(button => {
+            button.classList.remove('btn-active');
+        });
+        
+        if (isActive) {
+            selectedButton.classList.remove('btn-active');
+            document.getElementById("weaponType").value = "";
+        } else {
+            selectedButton.classList.add('btn-active');
+            document.getElementById("weaponType").value = weaponType;
+        }
+        
+        fetchWeapons();
+    }
+
+    function fetchWeapons() {
+        const nameFilter = document.getElementById("weaponSearchBox").value || "";
+        const typeFilter = document.getElementById("weaponType").value;
+        const elementFilter = document.getElementById("elementFilter").value;
+        const slotFilter = document.getElementById("weaponSlotFilter").value;
+
+        const queryParams = new URLSearchParams();
+        if (nameFilter) queryParams.append("name", nameFilter);
+        if (typeFilter) queryParams.append("type", typeFilter);
+        if (elementFilter) queryParams.append("element_type", elementFilter);
+        if (slotFilter) queryParams.append("slots", slotFilter);
+
+        fetch(`/weapon_search/?${queryParams.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+
+                const weaponList = document.getElementById("weaponList");
+                weaponList.innerHTML = "";
+
+                if (data.error) {
+                    console.error("Error:", data.error);
+                    return;
+                }
+
+                data.weapons.forEach(weapon => {
+                    const weaponDiv = document.createElement("div");
+                    weaponDiv.classList.add("border", "p-2", "rounded", "shadow", "w-full", "text-center");
+
+                    const attack = weapon.attack?.display || "0";
+                    const affinity = weapon.attributes?.affinity !== undefined ? `${weapon.attributes.affinity}%` : "0";
+                    const elderseal = weapon.elderseal || "None";
+                    const element = weapon.elements?.length > 0 ? `${weapon.elements[0].type.charAt(0).toUpperCase()}${weapon.elements[0].type.slice(1)} ${weapon.elements[0].damage}` : "None";
+                    const durability = weapon.durability?.length > 0 ? weapon.durability[weapon.durability.length - 1].red : "N/A";
+                    const slots = weapon.slots?.length > 0 ? weapon.slots.map(slot => slot.rank).join(" | ") : "None";
+                    const slotsAmount = weapon.slots?.length || 0;
+
+                    weaponDiv.innerHTML = `
+                        <button class="btn btn-primary w-full capitalize mb-2" onclick="selectID('weapon', ${weapon.id}, '${escapeJSString(weapon.name)}', ${slotsAmount})">
+                            ${weapon.name}
+                        </button>
+                        <div class="flex flex-col text-sm space-y-1 items-center gap-1">
+                            <div class="flex flex-row justify-center space-x-4">
+                                <p><strong>Attack:</strong> ${attack}</p>
+                                <p><strong>Affinity:</strong> ${affinity}</p>
+                                <p><strong>Element:</strong> ${element}</p>
+                                <p><strong>Elderseal:</strong> ${elderseal}</p>
+                                <p><strong>Durability:</strong> ${durability}</p>
+                                <p><strong>Slots:</strong> ${slots}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    weaponList.appendChild(weaponDiv);
+                });
+            })
+            .catch(error => console.error("Fetch error:", error));
+    }
+
     function openArmorSearch(type) {
         const modal = document.getElementById("armorModal");
         modal.classList.remove("hidden");
+        document.getElementById("armorType").value = type;
+        
         document.getElementById("armorModalTitle").textContent = type.charAt(0).toUpperCase() + type.slice(1) + " Armor";
+
         fetchArmor(type);
 
         modal.addEventListener("click", function (event) {
@@ -123,10 +334,66 @@
         document.getElementById("armorModal").classList.add("hidden");
     }
 
+    function fetchArmor(type) {
+        const nameFilter = document.getElementById("armorSearchBox").value || "";
+        const typeFilter = document.getElementById("armorType").value;
+        const slotFilter = document.getElementById("armorSlotFilter").value;
+
+        const queryParams = new URLSearchParams();
+        if (nameFilter) queryParams.append("name", nameFilter);
+        if (typeFilter) queryParams.append("type", typeFilter);
+        if (slotFilter) queryParams.append("slots", slotFilter);
+    
+        fetch(`/armor_search/?${queryParams.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                const armorList = document.getElementById("armorList");
+                armorList.innerHTML = "";
+
+                if (data.error) {
+                    console.error("Error:", data.error);
+                    return;
+                }
+    
+                data.armors.forEach(armor => {
+                    const armorDiv = document.createElement("div");
+                    armorDiv.classList.add("border", "p-2", "rounded", "shadow", "w-full", "text-center");
+    
+                    const defense = armor.defense?.base || "N/A";
+                    const fireRes = armor.resistances?.fire ?? "0";
+                    const waterRes = armor.resistances?.water ?? "0";
+                    const iceRes = armor.resistances?.ice ?? "0";
+                    const thunderRes = armor.resistances?.thunder ?? "0";
+                    const dragonRes = armor.resistances?.dragon ?? "0";
+                    const slots = armor.slots?.length > 0 ? armor.slots.map(slot => slot.rank).join(" | ") : "None";
+                    const slotsAmount = armor.slots?.length || 0;
+    
+                    armorDiv.innerHTML = `
+                        <button class="btn btn-primary w-full capitalize mb-2" onclick="selectID('${type}', ${armor.id}, '${escapeJSString(armor.name)}', ${slotsAmount})">
+                            ${armor.name}
+                        </button>
+                        <div class="flex flex-col text-sm space-y-1 items-center gap-1">
+                            <p><strong>Defense:</strong> ${defense}</p>
+                            <div class="flex flex-row justify-center space-x-4">
+                                <p><strong>Fire:</strong> ${fireRes}</p>
+                                <p><strong>Water:</strong> ${waterRes}</p>
+                                <p><strong>Ice:</strong> ${iceRes}</p>
+                                <p><strong>Thunder:</strong> ${thunderRes}</p>
+                                <p><strong>Dragon:</strong> ${dragonRes}</p>
+                                <p><strong>Slots:</strong> ${slots}</p>
+                            </div>
+                        </div>
+                    `;
+    
+                    armorList.appendChild(armorDiv);
+                });
+            })
+            .catch(error => console.error("Fetch error:", error));
+    }
+
     function openCharmSearch() {
         const modal = document.getElementById("charmModal");
         modal.classList.remove("hidden");
-        fetchCharm();
 
         modal.addEventListener("click", function (event) {
             if (event.target === modal) {
@@ -138,148 +405,250 @@
     function closeCharmSearch() {
         document.getElementById("charmModal").classList.add("hidden");
     }
-
-    function fetchWeapons(type) {
-        const weaponList = document.getElementById("weaponList");
-        const loadingSpinner = document.getElementById("loadingSpinner");
     
-        weaponList.innerHTML = "";
-        loadingSpinner.classList.remove("hidden");
-    
-        fetch(`/weapon_search?type=${type}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error("Error:", data.error);
-                    return;
-                }
-    
-                loadingSpinner.classList.add("hidden");
-    
-                data.weapons.forEach(weapon => {
-                    const weaponDiv = document.createElement("div");
-                    weaponDiv.classList.add("border", "p-2", "rounded", "shadow", "w-full", "text-center");
-
-                    const attack = weapon.attack?.display || "N/A";
-                    const affinity = weapon.attributes?.affinity !== undefined ? `${weapon.attributes.affinity}%` : "N/A";
-                    const elderseal = weapon.elderseal || "None";
-                    const element = weapon.elements?.length > 0 ? `${weapon.elements[0].type} ${weapon.elements[0].damage}` : "None";
-                    const durability = weapon.durability?.length > 0 ? weapon.durability[weapon.durability.length - 1].red : "N/A"; // Last durability value
-    
-                    weaponDiv.innerHTML = `
-                        <button class="btn btn-primary w-full capitalize mb-2" onclick="selectID('weapon', ${weapon.id}, '${weapon.name}')">
-                        ${weapon.name}
-                        </button>
-                        <div class="flex flex-col text-sm space-y-1 items-center gap-1">
-                            <div class="flex flex-row justify-center space-x-4">
-                                <p><strong>Attack:</strong> ${attack}</p>
-                                <p><strong>Affinity:</strong> ${affinity}</p>
-                                <p><strong>Element:</strong> ${element}</p>
-                                <p><strong>Elderseal:</strong> ${elderseal}</p>
-                                <p><strong>Durability:</strong> ${durability}</p>
-                            </div>
-                        </div>
-                    `;
-    
-                    weaponList.appendChild(weaponDiv);
-                });
-            })
-            .catch(error => console.error("Fetch error:", error));
-    }
-
-    function fetchArmor(type) {
-        const armorList = document.getElementById("armorList");
-        const loadingSpinner = document.getElementById("armorLoadingSpinner");
-
-        armorList.innerHTML = "";
-        loadingSpinner.classList.remove("hidden");
-
-        fetch(`/armor_search?type=${type}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error("Error:", data.error);
-                    return;
-                }
-
-                loadingSpinner.classList.add("hidden");
-
-                data.armors.forEach(armor => {
-                    const button = document.createElement("button");
-                    button.classList.add("btn", "btn-primary", "m-1");
-                    button.textContent = armor.name;
-                    button.onclick = () => selectID(type, armor.id, armor.name);
-                    armorList.appendChild(button);
-                });
-            })
-            .catch(error => console.error("Fetch error:", error));
-    }
-
     function fetchCharm() {
-        const charmList = document.getElementById("charmList");
-        const loadingSpinner = document.getElementById("charmLoadingSpinner");
+        const nameFilter = document.getElementById("charmSearchBox").value || "";
+
+        const queryParams = new URLSearchParams();
+
+        if (nameFilter) queryParams.append("name", nameFilter);
 
         charmList.innerHTML = "";
-        loadingSpinner.classList.remove("hidden");
 
-        fetch(`/charm_search`)
+        fetch(`/charm_search/?${queryParams.toString()}`)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
                     console.error("Error:", data.error);
                     return;
                 }
-
-                loadingSpinner.classList.add("hidden");
 
                 data.charms.forEach(charm => {
                     const button = document.createElement("button");
                     button.classList.add("btn", "btn-primary", "m-1");
                     button.textContent = charm.name;
-                    button.onclick = () => selectID('charm', charm.id, charm.name);
+                    button.onclick = () => selectID('charm', charm.id, charm.name, 0);
                     charmList.appendChild(button);
                 });
             })
             .catch(error => console.error("Fetch error:", error));
     }
+
+    let currentSlotButton = null;
+
+    function openSlotSearch(event) {
+        currentSlotButton = event.currentTarget;
+        
+        const modal = document.getElementById("slotModal");
+        modal.classList.remove("hidden");
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                closeSlotSearch();
+            }
+        });
+    }
+
+    function closeSlotSearch() {
+        document.getElementById("slotModal").classList.add("hidden");
+    }
+
+    function fetchDecoration() {
+        const decorationList = document.getElementById("decorationList");
+        const nameFilter = document.getElementById("decorationSearchBox").value || "";
     
-    function selectID(piece, id, name) {
+        const queryParams = new URLSearchParams();
+        if (nameFilter) queryParams.append("skills.skillName", nameFilter);
+    
+        decorationList.innerHTML = "";
+        
+        fetch(`/decoration_search/?${queryParams.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error("Error:", data.error);
+                return;
+            }
+
+            data.decorations.forEach(decoration => {
+                const skillDescriptions = decoration.skills
+                    .map(skill => `<li>${skill.description}</li>`)
+                    .join("");
+
+                decorationList.innerHTML += `
+                    <div class="border p-2 rounded shadow w-full">
+                        <button class="btn btn-secondary w-full capitalize mb-2" onclick="selectDecorationForSlot('${decoration.id}', '${decoration.name}')">
+                            ${decoration.name}
+                        </button>
+                        <ul class="text-sm text-gray-600 pl-4 list-disc">
+                            ${skillDescriptions}
+                        </ul>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => console.error("Fetch error:", error));
+    }
+
+    function selectDecorationForSlot(decorationId, decorationName) {
+        if (!currentSlotButton) return;
+    
+        currentSlotButton.dataset.decorationId = decorationId;
+        currentSlotButton.innerText = decorationName;
+        stats();
+        
+        closeSlotSearch();
+    }
+    
+    function selectID(piece, id, name, slots) {
         if (piece === 'weapon') {
             document.getElementById("selectedWeaponId").value = id;
             document.getElementById("weaponModal").classList.add("hidden");
-            alert(document.getElementById("selectedWeaponId").value);
+
+            const slotContainer = document.getElementById('weaponSlots');
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`weaponSlot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("weaponButton").textContent = name;
         } 
         else if (piece === 'head') {
             document.getElementById("selectedHeadArmorId").value = id;
             document.getElementById("armorModal").classList.add("hidden");
-            alert(document.getElementById("selectedHeadArmorId").value);
+
+            const slotContainer = document.getElementById(`${piece}Slots`);
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`${piece}Slot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("headButton").textContent = name;
         } 
         else if (piece === 'chest') {
             document.getElementById("selectedChestArmorId").value = id;
             document.getElementById("armorModal").classList.add("hidden");
-            alert(document.getElementById("selectedChestArmorId").value);
+
+            const slotContainer = document.getElementById(`${piece}Slots`);
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`${piece}Slot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("chestButton").textContent = name;
         } 
         else if (piece === 'gloves') {
             document.getElementById("selectedGlovesArmorId").value = id;
             document.getElementById("armorModal").classList.add("hidden");
-            alert(document.getElementById("selectedGlovesArmorId").value);
+
+            const slotContainer = document.getElementById(`${piece}Slots`);
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`${piece}Slot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("glovesButton").textContent = name;
         } 
         else if (piece === 'waist') {
             document.getElementById("selectedWaistArmorId").value = id;
             document.getElementById("armorModal").classList.add("hidden");
-            alert(document.getElementById("selectedWaistArmorId").value);
+
+            const slotContainer = document.getElementById(`${piece}Slots`);
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`${piece}Slot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("waistButton").textContent = name;
         } 
         else if (piece === 'legs') {
             document.getElementById("selectedLegsArmorId").value = id;
             document.getElementById("armorModal").classList.add("hidden");
-            alert(document.getElementById("selectedLegsArmorId").value);
+
+            const slotContainer = document.getElementById(`${piece}Slots`);
+            slotContainer.classList.remove('hidden');
+
+            for (let i = 1; i <= 3; i++) {
+                const slotBtn = document.getElementById(`${piece}Slot${i}`);
+
+                slotBtn.dataset.skillId = "";
+                slotBtn.textContent = `Slot ${i}`;
+
+                if (i <= slots) {
+                    slotBtn.classList.remove('hidden');
+                } else {
+                    slotBtn.classList.add('hidden');
+                }
+            }
+
+            document.getElementById("legsButton").textContent = name;
         }
         else if (piece === 'charm') {
             document.getElementById("selectedCharmId").value = id;
             document.getElementById("charmModal").classList.add("hidden");
-            alert(document.getElementById("selectedCharmId").value);
+            document.getElementById("charmButton").textContent = name;
         }
         stats();
+    }
+
+    function escapeJSString(str) {
+        return str
+            .replace(/['"\\]/g, '\\$&')
+            .replace(/\+/g, '\\+')
+            .replace(/%/g, '\\%')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\t/g, '\\t');
     }
 
     function stats() {
@@ -295,37 +664,12 @@
         let totalDefense = 0;
         let fireRes = 0, waterRes = 0, iceRes = 0, thunderRes = 0, dragonRes = 0;
 
-        const statsContainer = document.getElementById("statsContainer");
-        const weaponStats = document.getElementById("weaponStats");
-
-        weaponStats.innerHTML = "";
-        document.getElementById("totalDefense").textContent = "0";
-        document.getElementById("fireResistance").textContent = "0";
-        document.getElementById("waterResistance").textContent = "0";
-        document.getElementById("iceResistance").textContent = "0";
-        document.getElementById("thunderResistance").textContent = "0";
-        document.getElementById("dragonResistance").textContent = "0";
-
-        if (weaponId) {
-            fetch(`/weapon/${weaponId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error("Weapon Error:", data.error);
-                        return;
-                    }
-                    weaponStats.innerHTML = `
-                        <p><strong>Weapon:</strong> ${data.name}</p>
-                        <p><strong>Attack:</strong> ${data.attack}</p>
-                        <p><strong>Affinity:</strong> ${data.attributes?.affinity || "N/A"}%</p>
-                        <p><strong>Elderseal:</strong> ${data.elderseal || "None"}</p>
-                    `;
-                })
-                .catch(error => console.error("Weapon fetch error:", error));
-        }
+        const skillMap = {};
+        const fetchPromises = [];
 
         if (armorIds.length > 0) {
-            Promise.all(armorIds.map(id => fetch(`/armor/${id}`).then(res => res.json())))
+            const armorPromise = Promise.all(armorIds.map(id => fetch(`/armor/${id}`)
+                .then(res => res.json())))
                 .then(armorData => {
                     armorData.forEach(armor => {
                         totalDefense += armor.defense || 0;
@@ -334,8 +678,25 @@
                         iceRes += armor.resistances?.ice || 0;
                         thunderRes += armor.resistances?.thunder || 0;
                         dragonRes += armor.resistances?.dragon || 0;
-                    });
 
+                        armor.skills?.forEach(skill => {
+                            const name = skill.skillName;
+                            const level = skill.level || 0;
+                            skillMap[name] = (skillMap[name] || 0) + level;
+                        });
+                        
+
+                        const skillList = document.getElementById("totalSkills");
+                        skillList.innerHTML = "";
+                        Object.entries(skillMap).forEach(([name, level]) => {
+                            const p = document.createElement("p");
+                            p.textContent = `${name}[${level}]`;
+                            skillList.appendChild(p);
+                        });
+
+                    });
+                    document.getElementById("health").textContent = 100;
+                    document.getElementById("stamina").textContent = 100;
                     document.getElementById("totalDefense").textContent = totalDefense;
                     document.getElementById("fireResistance").textContent = fireRes;
                     document.getElementById("waterResistance").textContent = waterRes;
@@ -344,8 +705,238 @@
                     document.getElementById("dragonResistance").textContent = dragonRes;
                 })
                 .catch(error => console.error("Armor fetch error:", error));
+            fetchPromises.push(armorPromise);
         }
+
+        const charmId = document.getElementById("selectedCharmId")?.value;
+        if (charmId) {
+            const charmPromise = fetch(`/charm/${charmId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const highestSkillLevels = {};
+                    data.ranks?.forEach(rank => {
+                        rank.skills?.forEach(skill => {
+                            const name = skill.skillName;
+                            const level = skill.level || 0;
+                            highestSkillLevels[name] = Math.max(highestSkillLevels[name] || 0, level);
+                        });
+                    });
+
+                    Object.entries(highestSkillLevels).forEach(([name, level]) => {
+                        skillMap[name] = Math.max(skillMap[name] || 0, level);
+                    });
+                });
+
+            fetchPromises.push(charmPromise);
+        }
+
+        if (weaponId) {
+            fetch(`/weapon/${weaponId}`).then(response => response.json())
+                .then(data => {
+                    movestData(data.type, data.attack);
+                    document.getElementById("attack").textContent =  data.attack || "0";
+                    document.getElementById("affinity").textContent = data.attributes.affinity || 0;
+                    document.getElementById("element").textContent = data.elements?.[0]?.type && data.elements?.[0]?.damage
+                        ? `${data.elements[0].type.charAt(0).toUpperCase()}${data.elements[0].type.slice(1)} ${data.elements[0].damage}`
+                        : "None";
+                    document.getElementById("elderseal").textContent = data.elderseal || "None";
+                    document.getElementById("durability").textContent = data.durability?.length > 0
+                        ? data.durability[data.durability.length - 1].red
+                        : "N/A";
+                })
+                .catch(error => console.error("Weapon fetch error:", error));
+        }
+
+        const slotButtons = document.querySelectorAll(".slot-btn");
+        const slotIds = Array.from(slotButtons).map(btn => btn.dataset.decorationId || null);
+
+        slotIds.forEach(id => {
+            if (!id) return;
+            const decoPromise = fetch(`/decoration/${id}`)
+                .then(res => res.json())
+                .then(decoration => {
+                    decoration.skills?.forEach(skill => {
+                        const name = skill.skillName;
+                        const level = skill.level || 0;
+                        skillMap[name] = (skillMap[name] || 0) + level;
+                    });
+                });
+            fetchPromises.push(decoPromise);
+        });
+
+        
+        Promise.all(fetchPromises).then(() => {
+            const skillList = document.getElementById("totalSkills");
+            skillList.innerHTML = "";
+            Object.entries(skillMap).forEach(([name, level]) => {
+                const p = document.createElement("p");
+                p.textContent = `${name}[${level}]`;
+                skillList.appendChild(p);
+            });
+    
+            skillsDefined(skillMap);
+        });
     }
+
+    function movestData(weaponType, weaponAttack) {
+        const queryParams = new URLSearchParams();
+        
+        if (weaponType) {
+            queryParams.append("weaponType", weaponType);
+        }
+        
+        fetch(`/motion/?${queryParams.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error("Error:", data.error);
+                return;
+            }
+
+            const movesetContent = document.getElementById('movesetCollapseToggle');
+            const movesetGrid = document.getElementById('movesetGrid');
+
+            
+            let damageMultiplier = 0;
+
+            if (weaponType == 'hammer') {
+                damageMultiplier = 5.2;
+            }
+            else if (weaponType == 'great-sword') {
+                damageMultiplier = 4.8;
+            }
+            else if (weaponType == 'hunting-horn') {
+                damageMultiplier = 4.2;
+            }
+            else if (weaponType == 'long-sword') {
+                damageMultiplier = 3.3;
+            }
+            else if (weaponType == 'dual-blades') {
+                damageMultiplier = 1.4;
+            }
+            else if (weaponType == 'sword-and-shield') {
+                damageMultiplier = 1.4;
+            }
+            else if (weaponType == 'gunlance') {
+                damageMultiplier = 2.3;
+            }
+            else if (weaponType == 'switch-axe') {
+                damageMultiplier = 3.5;
+            }
+            else if (weaponType == 'charge-blade') {
+                damageMultiplier = 3.6;
+            }
+            else if (weaponType == 'insect-glaive') {
+                damageMultiplier = 3.1;
+            }
+            else if (weaponType == 'light-bowgun') {
+                damageMultiplier = 1.3;
+            }
+            else if (weaponType == 'heavy-bowgun') {
+                damageMultiplier = 1.5;
+            }
+            else if (weaponType == 'bow') {
+                damageMultiplier = 1.2;
+            }
+            else if (weaponType == 'lance') {
+                damageMultiplier = 2.3;
+            }
+
+            movesetGrid.innerHTML = '';
+
+            if (data.motion && data.motion.length > 0) {
+                data.motion.forEach(move => {
+                    const moveDiv = document.createElement('div');
+                    const capitalizedDamageType = move.damageType.charAt(0).toUpperCase() + move.damageType.slice(1).toLowerCase();
+
+                    moveDiv.classList.add('card', 'bg-ghost', 'shadow-md', 'image-full', 'transition', 'duration-300', 'hover:shadow-lg');
+
+
+                    const hitSum = move.hits.reduce((a, b) => a + b, 0);
+                    const attackCalculated = (((weaponAttack / damageMultiplier) * hitSum / 10 * 1.39));
+                    const attackCrit = attackCalculated * 1.25;
+
+                    moveDiv.innerHTML = `
+                        <div class="card-body">
+                            <h2 class="card-title">${move.name}</h2>
+                            <p><strong>Damage Type:</strong> ${capitalizedDamageType}</p>
+                            <p><strong>Damage:</strong> ${attackCalculated.toFixed(0)}(${attackCrit.toFixed(0)})</p>
+                        </div>
+                    `;
+
+                    movesetGrid.appendChild(moveDiv);
+                });
+            } else {
+                movesetGrid.innerHTML = '<p>No moveset data available for this weapon.</p>';
+            }
+
+            const movesetCollapse = document.getElementById('movesetCollapseToggle');
+            movesetCollapse.classList.remove('collapse-close');
+            movesetCollapse.classList.add('collapse-open');
+        })
+        .catch(error => {
+            console.error("Moveset fetch error:", error)
+        });
+    }
+
+    function skillsDefined(skillMap) {
+        const modifierMap = {};
+        
+        console.log(`${skillMap}`);
+        const fetchPromises = Object.entries(skillMap).map(([name, level]) => {
+            const queryParams = new URLSearchParams({
+                skillName: name,
+                rank: level
+            });
+
+            return fetch(`/skills/?${queryParams.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error("Error:", data.error);
+                        return;
+                    }
+    
+                    console.log(`${data}`);
+                    const modifiers = data.modifiers;
+                    if (!modifiers) return;
+    
+                    for (const [modName, modValue] of Object.entries(modifiers)) {
+                        modifierMap[modName] = (modifierMap[modName] || 0) + modValue;
+                    }
+                })
+                .catch(err => {
+                    console.error(`Failed to fetch skill "${name}"`, err);
+                });
+        });
+        
+        Promise.all(fetchPromises).then(() => {
+            for (const [modifier, value] of Object.entries(modifierMap)) {
+                const map = {
+                    attack: "attack",
+                    affinity: "affinity",
+                    health: "health",
+                    defense: "totalDefense",
+                    resistFire: "fireResistance",
+                    resistWater: "waterResistance",
+                    resistIce: "iceResistance",
+                    resistThunder: "thunderResistance",
+                    resistDragon: "dragonResistance",
+                };
+    
+                const spanId = map[modifier];
+                if (!spanId) return;
+    
+                const span = document.getElementById(spanId);
+                if (!span) return;
+    
+                const current = parseFloat(span.textContent) || 0;
+                span.textContent = current + value;
+            }
+        });
+    }
+
+    
 </script>
 
 {% endblock layout %}
