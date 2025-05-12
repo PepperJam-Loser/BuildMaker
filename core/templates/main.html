@@ -11,8 +11,13 @@
         <!--
         {% include 'navbar.html'}
         implement later-->
-        <div class="navbar bg-neutral text-neutral-content">
+        <div class="navbar bg-neutral text-neutral-content justify-between items-center w-full px-4 py-2">
             <button class="btn btn-ghost text-xl">Monster Hunter World Set Builder</button>
+            
+            <div class="flex gap-2">
+                <button onclick="pasteIDsFromClipboard()" class="btn btn-secondary">Paste Build</button>
+                <button onclick="copyIDsToClipboard()" class="btn btn-primary">Copy Build</button>
+            </div>
         </div>
         <div class="divider"></div>
         {% block layout %}
@@ -20,3 +25,96 @@
         {% endblock layout %}
     </body>
 </html>
+
+<script>
+
+function copyIDsToClipboard() {
+    const ids = [
+        document.getElementById("selectedWeaponId").value || "0",
+        document.getElementById("selectedHeadArmorId").value || "0",
+        document.getElementById("selectedChestArmorId").value || "0",
+        document.getElementById("selectedGlovesArmorId").value || "0",
+        document.getElementById("selectedWaistArmorId").value || "0",
+        document.getElementById("selectedLegsArmorId").value || "0",
+        document.getElementById("selectedCharmId").value || "0",
+    ];
+
+    const slotInputIds = [
+        "weaponSlot1", "weaponSlot2", "weaponSlot3",
+        "headSlot1", "headSlot2", "headSlot3",
+        "chestSlot1", "chestSlot2", "chestSlot3",
+        "glovesSlot1", "glovesSlot2", "glovesSlot3",
+        "waistSlot1", "waistSlot2", "waistSlot3",
+        "legsSlot1", "legsSlot2", "legsSlot3"
+    ];
+
+    slotInputIds.forEach(id => {
+        const button = document.getElementById(id);
+        const decoId = button?.dataset?.decorationId || "0";
+        ids.push(decoId);
+    });
+
+    const formatted = ids.join("-");
+
+    navigator.clipboard.writeText(formatted)
+        .catch(err => {
+            console.error("Failed to copy:", err);
+        });
+}
+
+function pasteIDsFromClipboard() {
+    document.getElementById("health").textContent = 100;
+    document.getElementById("stamina").textContent = 100;
+    document.getElementById("totalDefense").textContent = 0;
+    document.getElementById("fireResistance").textContent = 0;
+    document.getElementById("waterResistance").textContent = 0;
+    document.getElementById("iceResistance").textContent = 0;
+    document.getElementById("thunderResistance").textContent = 0;
+    document.getElementById("dragonResistance").textContent = 0;
+    
+    navigator.clipboard.readText()
+        .then(text => {
+            const values = text.split("-");
+            const ids = [
+                "selectedWeaponId",
+                "selectedHeadArmorId",
+                "selectedChestArmorId",
+                "selectedGlovesArmorId",
+                "selectedWaistArmorId",
+                "selectedLegsArmorId",
+                "selectedCharmId",
+                "weaponSlot1", "weaponSlot2", "weaponSlot3",
+                "headSlot1", "headSlot2", "headSlot3",
+                "chestSlot1", "chestSlot2", "chestSlot3",
+                "glovesSlot1", "glovesSlot2", "glovesSlot3",
+                "waistSlot1", "waistSlot2", "waistSlot3",
+                "legsSlot1", "legsSlot2", "legsSlot3"
+            ];
+
+            const typeMap = [
+                { type: "weapon", url: "/weapon/", select: (data) => selectID("weapon", data.id, data.name, data.slots?.length || 0) },
+                { type: "head", url: "/armor/", select: (data) => selectID("head", data.id, data.name, data.slots?.length || 0) },
+                { type: "chest", url: "/armor/", select: (data) => selectID("chest", data.id, data.name, data.slots?.length || 0) },
+                { type: "gloves", url: "/armor/", select: (data) => selectID("gloves", data.id, data.name, data.slots?.length || 0) },
+                { type: "waist", url: "/armor/", select: (data) => selectID("waist", data.id, data.name, data.slots?.length || 0) },
+                { type: "legs", url: "/armor/", select: (data) => selectID("legs", data.id, data.name, data.slots?.length || 0) },
+                { type: "charm", url: "/charm/", select: (data) => selectID("charm", data.id, data.name, 0) }
+            ];
+
+            typeMap.forEach((entry, i) => {
+                const val = values[i];
+                if (val !== "0") {
+                    const input = document.getElementById(ids[i]);
+                    if (input) input.value = val;
+                    fetch(`${entry.url}${val}/`)
+                        .then(res => res.json())
+                        .then(data => entry.select(data))
+                        .catch(err => console.error(`Failed to fetch ${entry.type}:`, err));
+                }
+            });
+        })
+        .catch(err => {
+            console.error("Failed to read clipboard:", err);
+        });
+}
+</script>

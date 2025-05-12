@@ -123,7 +123,7 @@ def armor_search(request):
     return JsonResponse({"armors": armors}, status=200)
 
 def charm_search(request):
-    name = request.GET.get("name", "")
+    name = request.GET.get("name", " ")
     
     query = {}
     
@@ -184,7 +184,7 @@ def weapon(request, weapon_id):
         "name": weapon.name,
         "type": weapon.type,
         "rarity": weapon.rarity,
-        "attack": weapon.attack.get("display", 0),
+        "attack": weapon.attack,
         "attributes": weapon.attributes,
         "elderseal": weapon.elderseal,
         "damageType": weapon.damageType,
@@ -287,33 +287,49 @@ def motion(request):
 def skills(request):
     skillName = request.GET.get("skillName", "")
     rank = request.GET.get("rank", "")
-    
-    query = {}
-    
-    if skillName:
-        query["name"] = skillName
-    if skillName:
-        query["ranks.level"] = rank
-        
+
+    try:
+        rank_int = int(rank)
+    except (ValueError, TypeError):
+        return JsonResponse({"error": "Invalid rank"}, status=400)
+
+    if not skillName:
+        return JsonResponse({"error": "Missing skill name"}, status=400)
+
+    query = {"name": skillName}
     query_string = json.dumps(query)
-    
+
     skill_data = fetchAPI(f"skills?q={query_string}")
-    
-    skill = skill_data[0]
-    ranks = skill.get("ranks", [])
-    
+
     if not skill_data:
         return JsonResponse({"error": "Skill not found"}, status=404)
-    
-    rank_index = int(rank) - 1
-    if rank_index >= len(ranks) or rank_index < 0:
-        rank_index = len(ranks) - 1
 
-    desired_rank = ranks[rank_index]
-    modifiers = desired_rank.get("modifiers", {})
+    skill = skill_data[0]
+    ranks = skill.get("ranks", [])
+
+    if not ranks:
+        return JsonResponse({"error": "No ranks found"}, status=404)
+    
+    valid_ranks = [r for r in ranks if isinstance(r.get("level"), int)]
+    if not valid_ranks:
+        return JsonResponse({"error": "No valid rank levels found"}, status=404)
+
+    max_available_level = max(r["level"] for r in valid_ranks)
+    chosen_level = min(rank_int, max_available_level)
+
+    best_rank = max(
+        (r for r in valid_ranks if r["level"] <= chosen_level),
+        key=lambda r: r["level"],
+        default=None
+    )
+
+    if not best_rank:
+        return JsonResponse({"error": "No suitable rank found"}, status=404)
 
     return JsonResponse({
-        "modifiers": modifiers
+        "modifiers": best_rank.get("modifiers", {}),
+        "rank": best_rank["level"],
+        "description": best_rank.get("description", "No description")
     })
 
 def weapon_list(request):
